@@ -1,6 +1,5 @@
-import { ThemeProvider, CssBaseline } from '@mui/material'
+import { ThemeProvider, CssBaseline, Container } from '@mui/material'
 import { LightTheme } from './theme/theme'
-import Header from './components/Header/Header'
 import Router from './pages/Router'
 import './App.css'
 import UserContextProvider from './contexts/userContext'
@@ -11,8 +10,9 @@ function App() {
     <ThemeProvider theme={LightTheme}>
       <UserContextProvider>
         <CssBaseline>
-          <Header/>
-          <Router/>
+          <Container>
+            <Router/>
+          </Container>
         </CssBaseline>
       </UserContextProvider>
     </ThemeProvider>
