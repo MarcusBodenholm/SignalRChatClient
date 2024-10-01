@@ -7,6 +7,8 @@ import { useState } from "react";
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("");
+
     const handleUsernameChange = (event) => {
         const usernameValue = event.target.value;
         setUsername(usernameValue);
@@ -15,7 +17,34 @@ const Login = () => {
         const passwordValue = event.target.value;
         setPassword(passwordValue)
     }
+    const handleLoginClick = async() => {
+        if (username.length === 0 || password.length === 0) return;
+        try {
+            const response = await fetch("https://localhost:7174/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                })
+            })
+            if (response.ok) {
+                //window.location.href = '/chat'
+                const data = await response.json();
+                sessionStorage.setItem('jwtToken', data.token);
+            }
+            else {
+                setError("Error: " + "The username or password was incorrect.")
+            }
+        }
+        catch (error) {
+            console.log(error)
 
+        }
+
+    }
 
 
     return (
@@ -27,7 +56,8 @@ const Login = () => {
                 <Typography variant="text">To use the SignalRChat you need to log in.</Typography>
                 <TextField value={username} id="register-username" label="Username" variant="standard" onChange={(event) => handleUsernameChange(event)}/>
                 <TextField value={password} id="register-password" label="Password" variant="standard" onChange={(event) => handlePasswordChange(event)}/>
-                <Button color="black" variant="outlined">Login</Button>
+                <Button color="black" variant="outlined" onClick={() => handleLoginClick()}>Login</Button>
+                {error.length === 0 ? <></> : <Typography variant="text" sx={{color: "red", fontStyle: "italic"}}>{error}</Typography>}
                 <NavLink to="/register">Not registered? Register here!</NavLink>
             </Stack>
         </Box>
