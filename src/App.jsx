@@ -9,14 +9,17 @@ function App() {
   return (
     <ThemeProvider theme={LightTheme}>
       <UserContextProvider>
-        <CssBaseline>
-          <Container>
-            <Router/>
-          </Container>
-        </CssBaseline>
+        <ChatContextProvider>
+          <CssBaseline>
+            <Container>
+              <Router/>
+            </Container>
+          </CssBaseline>
+        </ChatContextProvider>
       </UserContextProvider>
     </ThemeProvider>
   )
 }
+import ChatContextProvider from './contexts/chatContext'
 
 export default App

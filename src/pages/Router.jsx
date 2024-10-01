@@ -11,6 +11,7 @@ const Router = () => {
     })
     const location = useLocation();
     const pathCheck = (location.pathname !== "/login" && location.pathname !== "/register")
+    console.log(user)
     if (pathCheck && user.username === "") {
         return <Navigate to="/register"/>
     }

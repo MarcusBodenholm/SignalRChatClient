@@ -1,13 +1,16 @@
 import { Box, Stack, TextField, Typography, Button } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import { useState } from "react";
+import useUserContext from "../../contexts/useUserContest";
 
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("")
     const [error, setError] = useState("");
+    const {setUser} = useUserContext();
+    const navigate = useNavigate();
 
     const handleUsernameChange = (event) => {
         const usernameValue = event.target.value;
@@ -31,9 +34,11 @@ const Login = () => {
                 })
             })
             if (response.ok) {
-                //window.location.href = '/chat'
                 const data = await response.json();
                 sessionStorage.setItem('jwtToken', data.token);
+                setUser({username: username});
+                navigate('/chat')
+
             }
             else {
                 setError("Error: " + "The username or password was incorrect.")
