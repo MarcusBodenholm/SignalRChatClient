@@ -21,6 +21,7 @@ const ChatPanel = () => {
         const changeChatRoom = async() => {
             if (connection !== null && connection.state === "Connected") {
                 setChatMessages([]);
+                console.log(activeChat)
                 await connection.invoke('SwitchGroup', activeChat)
             }
 

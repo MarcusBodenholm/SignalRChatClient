@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import useUserContext from "../../contexts/useUserContest";
@@ -40,7 +41,7 @@ const Sidebar = () => {
         toggleChatCreation();
         connection.invoke("StartGroup", chatname)
             .then(() => {
-                setChats(prev => [...prev, chatname])
+                setChats(prev => [...prev, {name: chatname, owner: user.username}])
             })
             .catch(err => console.error(err.toString()))
 
@@ -55,7 +56,7 @@ const Sidebar = () => {
             </Stack>
             <Stack direction="column" spacing={1} sx={{marginTop:"10px"}}>
                 {chats.map((item, idx) => {
-                    return <ChatroomButton chatname={item} key={idx}/>
+                    return <ChatroomButton chatname={item.name} owner={item.owner} user={user.username} connection={connection} key={idx}/>
                 })}
             </Stack>
             {

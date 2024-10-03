@@ -23,8 +23,19 @@ export default function ChatContextProvider({children}){
         connection.on('ReceiveError', (user, message) => {
             setChatMessages(prev => [...prev, {user, message}])
         })
-        connection.on("ReceiveGroup", (roomName) => {
-            setChats(prev => [...prev, roomName])
+        connection.on("ReceiveGroup", (room) => {
+            setChats(prev => [...prev, room])
+        })
+        connection.on("GroupGone", (groupDeleted) => {
+            setChats(prev => [...prev.filter(c => c.name !== groupDeleted)])
+            console.log(activeChat, groupDeleted)
+            if (activeChat == groupDeleted) {
+                console.log(activeChat, groupDeleted)
+                console.log("triggered")
+                setTimeout(() => setActiveChat("Lobby"), 500);
+                //Figure out why the activeChat differs suddenly. 
+            }
+
         })
 
         setConnection(connection);
@@ -36,8 +47,6 @@ export default function ChatContextProvider({children}){
     const stopConnection = () => {
         connection.stop().then(() => console.log("Connection stopped"));
     }
-
-
     return <ChatContext.Provider value={{activeChat, setActiveChat, connection, chatMessages, setChatMessages, chats, setChats, initializeConnection, stopConnection}}>
         {children}
     </ChatContext.Provider>
