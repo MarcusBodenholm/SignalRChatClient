@@ -24,17 +24,14 @@ export default function ChatContextProvider({children}){
             setChatMessages(prev => [...prev, {user, message}])
         })
         connection.on("ReceiveGroup", (room) => {
+            console.log(chats);
             setChats(prev => [...prev, room])
+            console.log(chats);
+
         })
         connection.on("GroupGone", (groupDeleted) => {
             setChats(prev => [...prev.filter(c => c.name !== groupDeleted)])
-            console.log(activeChat, groupDeleted)
-            if (activeChat == groupDeleted) {
-                console.log(activeChat, groupDeleted)
-                console.log("triggered")
-                setTimeout(() => setActiveChat("Lobby"), 500);
-                //Figure out why the activeChat differs suddenly. 
-            }
+            setActiveChat(() => "Lobby");
 
         })
 

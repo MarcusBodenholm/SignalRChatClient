@@ -41,6 +41,7 @@ const Sidebar = () => {
         toggleChatCreation();
         connection.invoke("StartGroup", chatname)
             .then(() => {
+                console.log(chats)
                 setChats(prev => [...prev, {name: chatname, owner: user.username}])
             })
             .catch(err => console.error(err.toString()))
