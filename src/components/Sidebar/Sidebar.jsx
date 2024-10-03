@@ -19,7 +19,6 @@ const Sidebar = () => {
                 })
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data)
                     setChats(data);
                 }
     
@@ -47,9 +46,16 @@ const Sidebar = () => {
             .catch(err => console.error(err.toString()))
 
     }
-    // Fetch all group chats of the user. 
+    useEffect(() => {
+        if (connection != null) {
+            connection.on("ReceiveGroup", (roomName) => {
+                setChats(prev => [...prev, roomName])
+                console.log(roomName)
+            })
+        }
+    }, [connection])
     return (
-        <Box sx={{width: "270px", height: "80vh", backgroundColor: "rgb(21, 124, 206)", color: "white"}}>
+        <Box sx={{width: "270px", height: "85vh", backgroundColor: "rgb(21, 124, 206)", color: "white"}}>
             <Stack direction="row" sx={{justifyContent: "space-between", padding:"15px", paddingTop:"5px", paddingBottom:"2px", borderBottom:"2px solid white"}}>
                 <Typography variant="h5">
                     Chatrooms
@@ -63,11 +69,11 @@ const Sidebar = () => {
             </Stack>
             {
                 createChat ? <>
-                    <Stack direction="column">
-                        <Typography>Name chat</Typography>
+                    <Stack direction="column" sx={{margin: "5px", padding:"5px", backgroundColor: "#f5f5f5", borderRadius:"5px"}}>
+                        <Typography sx={{color: "rgb(21, 124, 206)"}}>Name chat</Typography>
                         <Stack direction="row">
-                            <TextField value={newChatName} variant="standard" onChange={(event) => updateNewChatName(event)}></TextField>
-                            <Button color="black" variant="outlined" onClick={() => handleChatCreation()}>Create</Button>
+                            <TextField value={newChatName} variant="standard" autoFocus={true} onChange={(event) => updateNewChatName(event)}></TextField>
+                            <Button color="white" sx={{backgroundColor: "rgb(21, 124, 206)", marginLeft: "5px"}} variant="contained" onClick={() => handleChatCreation()}>Create</Button>
                         </Stack>
                     </Stack>
                 </> 

@@ -1,5 +1,15 @@
 .chatpanelstack {
     width: 100%;
-    height: 80vh;
+    height: 85vh;
     background-color: white;
+    grid-template-rows: auto auto 1fr auto auto;
+    grid-template-areas: "chatname" "divider1" "chatpanel" "divider2" "userpanel"
 }
+
+.chatuserpanel {
+    width: 100%;
+    grid-area: userpanel;
+    margin-left: 20px;
+}   
+
+

@@ -1,4 +1,4 @@
-import { ThemeProvider, CssBaseline, Container } from '@mui/material'
+import { ThemeProvider, CssBaseline } from '@mui/material'
 import { LightTheme } from './theme/theme'
 import Router from './pages/Router'
 import './App.css'
@@ -11,9 +11,7 @@ function App() {
       <UserContextProvider>
         <ChatContextProvider>
           <CssBaseline>
-            <Container>
               <Router/>
-            </Container>
           </CssBaseline>
         </ChatContextProvider>
       </UserContextProvider>
