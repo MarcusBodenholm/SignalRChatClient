@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
 import "./ChatPanel.css";
 import useChatContext from "../../contexts/useChatContext";
@@ -8,34 +9,13 @@ import ChatMessageList from "../ChatMessageList/ChatMessageList";
 
 const ChatPanel = () => {
 
-    const {activeChat, connection, setConnection} = useChatContext();
+    const {activeChat, connection, initializeConnection, chatMessages, setChatMessages} = useChatContext();
     const {user} = useUserContext();
-    const [chatMessages, setChatMessages] = useState([])
     const [message, setMessage] = useState("");
     const [toggleAddUser, setToggleAddUser] = useState(false);
     const [addUser, setAddUser] = useState("");
     useEffect(() => {
-        const token = sessionStorage.getItem('jwtToken')
-        
-        const connection = new HubConnectionBuilder()
-            .withUrl("https://localhost:7174/chathub", {accessTokenFactory: () => token})
-            .build();
-        connection.start().then(() => {
-            console.log("connected to the hub");
-        }).catch((error) => console.error(error))
-        setChatMessages([])
-        connection.on('ReceiveGroupMessage',(message) => {
-            setChatMessages(prev => [...prev, {user:message.username, message:message.message, timeStamp:message.timeStamp}])
-            console.log(message)
-        })
-        connection.on('ReceiveError', (user, message) => {
-            setChatMessages(prev => [...prev, {user, message}])
-        })
-    
-        setConnection(connection);
-        return () => {
-            connection.stop().then(() => console.log("Connection stopped"));
-        }
+        initializeConnection();
     }, [])
     useEffect(() => {
         const changeChatRoom = async() => {

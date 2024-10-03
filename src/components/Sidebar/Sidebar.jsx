@@ -7,8 +7,7 @@ import useChatContext from "../../contexts/useChatContext";
 
 const Sidebar = () => {
     const {user} = useUserContext();
-    const {connection} = useChatContext();
-    const [chats, setChats] = useState([]);
+    const {connection, chats, setChats} = useChatContext();
     const [createChat, setCreateChat] = useState(false);
     const [newChatName, setNewChatName] = useState("")
     useEffect(() => {
@@ -46,14 +45,6 @@ const Sidebar = () => {
             .catch(err => console.error(err.toString()))
 
     }
-    useEffect(() => {
-        if (connection != null) {
-            connection.on("ReceiveGroup", (roomName) => {
-                setChats(prev => [...prev, roomName])
-                console.log(roomName)
-            })
-        }
-    }, [connection])
     return (
         <Box sx={{width: "270px", height: "85vh", backgroundColor: "rgb(21, 124, 206)", color: "white"}}>
             <Stack direction="row" sx={{justifyContent: "space-between", padding:"15px", paddingTop:"5px", paddingBottom:"2px", borderBottom:"2px solid white"}}>
