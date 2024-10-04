@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useUserContext from "../../contexts/useUserContest";
 import ChatroomButton from "../ChatroomButton/ChatroomButton";
 import useChatContext from "../../contexts/useChatContext";
@@ -11,24 +10,6 @@ const Sidebar = () => {
     const {connection, chats, setChats} = useChatContext();
     const [createChat, setCreateChat] = useState(false);
     const [newChatName, setNewChatName] = useState("")
-    useEffect(() => {
-        const fetchRooms = async() => {
-            try {
-                const response = await fetch(`https://localhost:7174/chatrooms/${user.username}`, {
-                    method: 'GET',
-                })
-                if (response.ok) {
-                    const data = await response.json();
-                    setChats(data);
-                }
-    
-            }
-            catch (error) {
-                console.log(error)
-            }
-        }
-        fetchRooms();
-    }, [])
     const toggleChatCreation = () => {
         setCreateChat(!createChat);
     }

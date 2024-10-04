@@ -8,6 +8,10 @@ export default function ChatContextProvider({children}){
     const [connection, setConnection] = useState(null);
     const [chatMessages, setChatMessages] = useState([])
     const [chats, setChats] = useState([]);
+    const [members, setMembers] = useState([]); // {name: "name", online: true}
+    const [dmOpen, setDmOpen] = useState(false);
+    const [dmDetails, setDmDetails] = useState([]);
+
     const initializeConnection = () => {
         const token = sessionStorage.getItem('jwtToken')
         const connection = new HubConnectionBuilder()
@@ -18,15 +22,13 @@ export default function ChatContextProvider({children}){
         }).catch((error) => console.error(error))
         setChatMessages([])
         connection.on('ReceiveGroupMessage',(message) => {
-            setChatMessages(prev => [...prev, {user:message.username, message:message.message, timeStamp:message.timeStamp}])
+            setChatMessages(prev => [...prev, {username:message.username, message:message.message, timeStamp:message.timeStamp}])
         })
         connection.on('ReceiveError', (user, message) => {
             setChatMessages(prev => [...prev, {user, message}])
         })
         connection.on("ReceiveGroup", (room) => {
-            console.log(chats);
             setChats(prev => [...prev, room])
-            console.log(chats);
 
         })
         connection.on("GroupGone", (groupDeleted) => {
@@ -34,17 +36,39 @@ export default function ChatContextProvider({children}){
             setActiveChat(() => "Lobby");
 
         })
+        connection.on("SwitchGroupInfo", (groupInfo) => {
+            setMembers(groupInfo.groupUsers);
+            setChatMessages(groupInfo.messages);
+        })
+        //Payload structure {messages: [{}], }
+        connection.on("InitialPayload", (payload) => {
+            setChats(payload.groups);
+            setMembers(payload.groupUsers)
+            setChatMessages(payload.messages)
+        })
+        connection.on("UpdateListOfUsers", (groupUsers) => {
+            setMembers(groupUsers);
+        })
+        connection.on("OpenPrivateChat", (payload) => {
+            setDmDetails(payload);
+            setDmOpen(true);
+        })
+        connection.on("ReceivePrivateMessage", (message) => {
+            setDmDetails((prev) => ({...prev, messages: [...prev.messages, message]}));
 
+        })
         setConnection(connection);
         return () => {
-            connection.stop().then(() => console.log("Connection stopped"));
+            connection.stop();
         }
         
     }
-    const stopConnection = () => {
-        connection.stop().then(() => console.log("Connection stopped"));
-    }
-    return <ChatContext.Provider value={{activeChat, setActiveChat, connection, chatMessages, setChatMessages, chats, setChats, initializeConnection, stopConnection}}>
+    return <ChatContext.Provider value={{activeChat, 
+                        setActiveChat, connection, chatMessages, 
+                        setChatMessages, chats, setChats, 
+                        initializeConnection, 
+                        members, setMembers, dmOpen, setDmOpen,
+                        dmDetails, setDmDetails}}>
         {children}
     </ChatContext.Provider>
 

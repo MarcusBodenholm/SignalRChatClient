@@ -1,0 +1,8 @@
+.MuiDialog-container.MuiDialog-scrollPaper {
+    width: 100vw;
+}
+.MuiPaper-root {
+    max-width: 100vw;
+    height: 80vh;
+    width: 65vw;
+}

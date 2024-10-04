@@ -1,7 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import "./ChatroomButton.css";
 import useChatContext from "../../contexts/useChatContext";
-import DeleteIcon from '@mui/icons-material/Delete';
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
