@@ -15,7 +15,7 @@ export default function ChatContextProvider({children}){
     const initializeConnection = () => {
         const token = sessionStorage.getItem('jwtToken')
         const connection = new HubConnectionBuilder()
-        .withUrl("https://localhost:7174/chathub", {accessTokenFactory: () => token})
+        .withUrl("https://signalrchat-prog23.azurewebsites.net/chathub", {accessTokenFactory: () => token})
         .build();
         connection.start().then(() => {
             console.log("connected to the hub");
