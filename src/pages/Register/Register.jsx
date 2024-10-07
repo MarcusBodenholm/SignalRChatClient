@@ -47,7 +47,8 @@ const Register = () => {
     const handleRegisterClick = async() => {
         if (password.password.length === 0 || username.username.length === 0 || confirmPassword.password.length === 0) return;
         try {
-            const response = await fetch("https://signalrchat-prog23.azurewebsites.net/signup", {
+            //https://signalrchat-prog23.azurewebsites.net/signup
+            const response = await fetch("https://localhost:7174/signup", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

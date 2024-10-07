@@ -12,10 +12,6 @@ const ChatPanel = () => {
     const [message, setMessage] = useState("");
     useEffect(() => {
         initializeConnection();
-
-        return () => {
-            console.log("connection stopped")
-        }
     }, [])
     useEffect(() => {
         const changeChatRoom = async() => {
@@ -35,7 +31,8 @@ const ChatPanel = () => {
     }
     const handleMessageSend = () => {
         try {
-            connection.send("SendGroupMessage", message, activeChat);
+            const messageToSend = message.replace("script", "")
+            connection.send("SendGroupMessage", messageToSend, activeChat);
             setMessage("");
         }
         catch(error) {

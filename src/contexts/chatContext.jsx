@@ -13,9 +13,11 @@ export default function ChatContextProvider({children}){
     const [dmDetails, setDmDetails] = useState([]);
 
     const initializeConnection = () => {
+        //https://signalrchat-prog23.azurewebsites.net/chathub
         const token = sessionStorage.getItem('jwtToken')
         const connection = new HubConnectionBuilder()
-        .withUrl("https://signalrchat-prog23.azurewebsites.net/chathub", {accessTokenFactory: () => token})
+        .withUrl("https://localhost:7174/chathub", {accessTokenFactory: () => token})
+        .withAutomaticReconnect()
         .build();
         connection.start().then(() => {
             console.log("connected to the hub");
@@ -58,9 +60,6 @@ export default function ChatContextProvider({children}){
 
         })
         setConnection(connection);
-        return () => {
-            connection.stop();
-        }
         
     }
     return <ChatContext.Provider value={{activeChat, 

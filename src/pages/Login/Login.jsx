@@ -23,7 +23,8 @@ const Login = () => {
     const handleLoginClick = async() => {
         if (username.length === 0 || password.length === 0) return;
         try {
-            const response = await fetch("https://signalrchat-prog23.azurewebsites.net/login", {
+            //https://signalrchat-prog23.azurewebsites.net/login
+            const response = await fetch("https://localhost:7174/login", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

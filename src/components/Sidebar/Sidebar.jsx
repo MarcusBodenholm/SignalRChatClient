@@ -3,7 +3,9 @@ import { useState } from "react";
 import useUserContext from "../../contexts/useUserContest";
 import ChatroomButton from "../ChatroomButton/ChatroomButton";
 import useChatContext from "../../contexts/useChatContext";
-
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./Sidebar.css";
 
 const Sidebar = () => {
     const {user} = useUserContext();
@@ -34,7 +36,7 @@ const Sidebar = () => {
                 <Typography variant="h5">
                     Chatrooms
                 </Typography>
-                <Box onClick={() => toggleChatCreation()}>+</Box>
+                <FontAwesomeIcon className="addgroupbutton" onClick={() => toggleChatCreation()} icon={faPlus} />
             </Stack>
             <Stack direction="column" spacing={1} sx={{marginTop:"10px"}}>
                 {chats.map((item, idx) => {
