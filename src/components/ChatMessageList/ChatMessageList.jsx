@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import ChatMessage from "../ChatMessage/ChatMessage";
 
 
-const ChatMessageList = ({chatMessages}) => {
+const ChatMessageList = ({chatMessages, cssClass}) => {
     const messagesEndRef = useRef(null);
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -13,9 +13,9 @@ const ChatMessageList = ({chatMessages}) => {
         
     })
     return (
-        <Stack className="chatview" direction="column" ref={messagesEndRef}>
+        <Stack className={cssClass} direction="column" ref={messagesEndRef}>
             {chatMessages.map((message, idx) => {
-                return <ChatMessage key={idx + message.user} message={message}/>
+                return <ChatMessage key={idx + message.username} message={message}/>
             })}
             <div ref={messagesEndRef}></div>
         </Stack>

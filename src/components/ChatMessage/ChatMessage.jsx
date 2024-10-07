@@ -16,7 +16,7 @@ const ChatMessage = ({message}) => {
     return (
         <Stack direction="row">
             <Typography variant="standard" sx={{marginRight: "10px", fontStyle:"italic"}}>{formatTimeStamp(message.timeStamp)}</Typography>
-            <Typography variant="standard" sx={{marginRight: "5px", fontWeight:"bold", color: color}}>{message.user}:</Typography>
+            <Typography variant="standard" sx={{marginRight: "5px", fontWeight:"bold", color: color}}>{message.username}:</Typography>
             <Typography variant="standard" >{message.message}</Typography>
         </Stack>
     )

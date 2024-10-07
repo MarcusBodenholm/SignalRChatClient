@@ -6,3 +6,11 @@
     background-color: rgba(255, 255, 255, 0.25);
     cursor: pointer;
 }
+.chatbutton {
+    flex-direction: "row";
+    justify-content: space-between;
+}
+
+.deleteroomicon:hover {
+    animation: fa-bounce 2s infinite linear;
+}

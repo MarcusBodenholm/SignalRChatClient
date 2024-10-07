@@ -1,5 +1,5 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useUserContext from "../../contexts/useUserContest";
 import ChatroomButton from "../ChatroomButton/ChatroomButton";
 import useChatContext from "../../contexts/useChatContext";
@@ -7,28 +7,9 @@ import useChatContext from "../../contexts/useChatContext";
 
 const Sidebar = () => {
     const {user} = useUserContext();
-    const {connection} = useChatContext();
-    const [chats, setChats] = useState([]);
+    const {connection, chats, setChats} = useChatContext();
     const [createChat, setCreateChat] = useState(false);
     const [newChatName, setNewChatName] = useState("")
-    useEffect(() => {
-        const fetchRooms = async() => {
-            try {
-                const response = await fetch(`https://localhost:7174/chatrooms/${user.username}`, {
-                    method: 'GET',
-                })
-                if (response.ok) {
-                    const data = await response.json();
-                    setChats(data);
-                }
-    
-            }
-            catch (error) {
-                console.log(error)
-            }
-        }
-        fetchRooms();
-    }, [])
     const toggleChatCreation = () => {
         setCreateChat(!createChat);
     }
@@ -41,19 +22,12 @@ const Sidebar = () => {
         toggleChatCreation();
         connection.invoke("StartGroup", chatname)
             .then(() => {
-                setChats(prev => [...prev, chatname])
+                console.log(chats)
+                setChats(prev => [...prev, {name: chatname, owner: user.username}])
             })
             .catch(err => console.error(err.toString()))
 
     }
-    useEffect(() => {
-        if (connection != null) {
-            connection.on("ReceiveGroup", (roomName) => {
-                setChats(prev => [...prev, roomName])
-                console.log(roomName)
-            })
-        }
-    }, [connection])
     return (
         <Box sx={{width: "270px", height: "85vh", backgroundColor: "rgb(21, 124, 206)", color: "white"}}>
             <Stack direction="row" sx={{justifyContent: "space-between", padding:"15px", paddingTop:"5px", paddingBottom:"2px", borderBottom:"2px solid white"}}>
@@ -64,7 +38,7 @@ const Sidebar = () => {
             </Stack>
             <Stack direction="column" spacing={1} sx={{marginTop:"10px"}}>
                 {chats.map((item, idx) => {
-                    return <ChatroomButton chatname={item} key={idx}/>
+                    return <ChatroomButton chatname={item.name} owner={item.owner} user={user.username} connection={connection} key={idx}/>
                 })}
             </Stack>
             {
