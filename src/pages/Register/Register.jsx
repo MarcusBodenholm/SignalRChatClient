@@ -1,6 +1,5 @@
 import { Box, Stack, TextField, Typography, Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import Header from "../../components/Header/Header";
 import { useState } from "react";
 
 
@@ -47,8 +46,11 @@ const Register = () => {
     const handleRegisterClick = async() => {
         if (password.password.length === 0 || username.username.length === 0 || confirmPassword.password.length === 0) return;
         try {
-            //https://signalrchat-prog23.azurewebsites.net/signup
-            const response = await fetch("https://localhost:7174/signup", {
+            let url = "https://signalrchat-prog23.azurewebsites.net/signup"
+            if (window.location.href.includes("localhost")) {
+                url = "https://localhost:7174/signup"
+            }
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -74,9 +76,9 @@ const Register = () => {
 
         }
     }
+
     return (
         <>
-        <Header/>
         <Box sx={{height: "90vh", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Stack direction="column" spacing={2} sx={{ width: "550px", padding: "2rem", backgroundColor: "white", borderRadius: "5px", textAlign: "left"}}>
                 <Typography variant="h2">Register</Typography>

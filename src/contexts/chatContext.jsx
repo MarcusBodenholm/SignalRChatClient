@@ -13,10 +13,14 @@ export default function ChatContextProvider({children}){
     const [dmDetails, setDmDetails] = useState([]);
 
     const initializeConnection = () => {
-        //https://signalrchat-prog23.azurewebsites.net/chathub
         const token = sessionStorage.getItem('jwtToken')
+        let url = "https://signalrchat-prog23.azurewebsites.net/chathub"
+        if (window.location.href.includes("localhost")) {
+            url = "https://localhost:7174/chathub"
+        }
+
         const connection = new HubConnectionBuilder()
-        .withUrl("https://localhost:7174/chathub", {accessTokenFactory: () => token})
+        .withUrl(url, {accessTokenFactory: () => token})
         .withAutomaticReconnect()
         .build();
         connection.start().then(() => {

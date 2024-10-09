@@ -1,6 +1,6 @@
 .chatpanelstack {
     width: 100%;
-    height: 85vh;
+    height: 90vh;
     background-color: white;
     grid-template-rows: auto auto 1fr auto auto;
     grid-template-columns: 1fr 200px;
@@ -14,3 +14,13 @@
 }   
 
 
+@media (max-width: 900px) {
+    .chatpanelstack {
+        width: 100%;
+        height: 90vh;
+        background-color: white;
+        grid-template-rows: auto auto 1fr auto auto;
+        grid-template-columns: 1fr 200px;
+        grid-template-areas: "chatname chatname" "divider1 divider1" "chatpanel chatpanel" "divider2 divider2" "userpanel userpanel"
+    }
+      }

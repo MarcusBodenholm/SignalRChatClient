@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Button, Divider, Stack, TextField, Typography, useMediaQuery } from "@mui/material";
 import "./ChatPanel.css";
 import useChatContext from "../../contexts/useChatContext";
 import { useEffect, useState } from "react";
@@ -17,7 +17,6 @@ const ChatPanel = () => {
         const changeChatRoom = async() => {
             if (connection !== null && connection.state === "Connected") {
                 setChatMessages([]);
-                console.log(activeChat)
                 await connection.invoke('SwitchGroup', activeChat)
             }
 
@@ -39,6 +38,8 @@ const ChatPanel = () => {
             console.error(error.toString());
         }
     }
+    const mobile = useMediaQuery("(max-width:900px)")
+
     return (
         <Stack className="chatpanelstack" sx={{display: "grid"}}>
             <Typography sx={{marginTop:"5px", marginBottom: "5px"}} variant="h3">{activeChat}</Typography>
@@ -50,7 +51,12 @@ const ChatPanel = () => {
                 <TextField sx={{width: "90%"}} id="chatmessagefield" label="What's on your mind?" value={message} onChange={(event) => handleMessageChange(event)}></TextField>
                 <Button  disabled={message.length == 0} variant="contained"  onClick={() => handleMessageSend()}>Send</Button>
             </Stack>
-            <GroupUsersPanel/>
+            {mobile ? <></>
+            
+            : 
+            <GroupUsersPanel/> }
+
+            
         </Stack>
     )
 }

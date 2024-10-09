@@ -1,6 +1,5 @@
 import { Box, Stack, TextField, Typography, Button } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
-import Header from "../../components/Header/Header";
 import { useState } from "react";
 import useUserContext from "../../contexts/useUserContest";
 
@@ -24,7 +23,12 @@ const Login = () => {
         if (username.length === 0 || password.length === 0) return;
         try {
             //https://signalrchat-prog23.azurewebsites.net/login
-            const response = await fetch("https://localhost:7174/login", {
+            let url = "https://signalrchat-prog23.azurewebsites.net/login"
+            if (window.location.href.includes("localhost")) {
+                url = "https://localhost:7174/login"
+            }
+
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,7 +59,6 @@ const Login = () => {
 
     return (
         <>
-        <Header/>
         <Box sx={{height: "90vh", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Stack direction="column" spacing={2} sx={{ minWidth: "400px", padding: "2rem", backgroundColor: "white", borderRadius: "5px", textAlign: "left"}}>
                 <Typography variant="h2">Login</Typography>

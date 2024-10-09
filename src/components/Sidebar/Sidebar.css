@@ -4,3 +4,11 @@
     justify-self: center;
     padding: 5px;
 }
+
+.logouticon {
+    cursor: pointer;
+    align-self: center;
+    justify-self: center;
+    padding: 5px;
+
+}
